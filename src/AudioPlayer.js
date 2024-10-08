@@ -4,7 +4,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audio] = useState(new Audio('path_to_your_audio_file.mp3')); // Replace with your audio file path
+  const [audio] = useState(new Audio('bad_sneakers.mp3')); // Replace with your audio file path
   const [startTime, setStartTime] = useState(null);
 
   const toggleAudio = () => {
