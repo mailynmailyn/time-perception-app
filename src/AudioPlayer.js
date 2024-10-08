@@ -26,7 +26,7 @@ const AudioPlayer = () => {
   const saveElapsedTime = async (elapsedTime) => {
     try {
       await addDoc(collection(db, 'audioRecords'), {
-        elapsedTime: elapsedTime, // Store elapsed time in milliseconds
+        elapsedTime: elapsedTime / 1000, // Store elapsed time in milliseconds
         timestamp: new Date(),
       });
       console.log('Elapsed time saved:', elapsedTime);
