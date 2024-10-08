@@ -2,17 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig'; // Import your Firestore setup
 import { collection, addDoc } from 'firebase/firestore';
 
-const path = require('path');
-
-// Assume __dirname is the current directory
-const currentDir = __dirname; // e.g., '/Users/username/project'
-const parentDir = path.join(currentDir, '..');
-console.log(currentDir);
-console.log(parentDir);
-
 const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audio] = useState(new Audio (path.join(parentDir, 'audio_clips/bad_sneakers.mp3'))); // Replace with your audio file path
+  const [audio] = useState(new Audio ('bad_sneakers.mp3')); // Replace with your audio file path
   const [startTime, setStartTime] = useState(null);
 
   const toggleAudio = () => {
