@@ -27,7 +27,7 @@ const AudioPlayer = () => {
 
   const saveElapsedTime = async (elapsedTime) => {
     try {
-      await addDoc(collection(db, 'audioRecords'), {
+      await addDoc(collection(db, 'audioRecords', 'bad sneakers', 'mai'), {
         elapsedTime: elapsedTime / 1000, // Store elapsed time in seconds
         timestamp: new Date(),
       });
@@ -53,6 +53,13 @@ const AudioPlayer = () => {
   };
 
   useEffect(() => {
+    // Add event listener for fullscreen change
+    const handleFullscreenChange = () => {
+        setIsFullscreen(!!document.fullscreenElement);
+      };
+  
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+
     // Clean up audio on component unmount
     return () => {
       audio.pause();
