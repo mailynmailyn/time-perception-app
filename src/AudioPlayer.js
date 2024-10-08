@@ -7,6 +7,8 @@ const path = require('path');
 // Assume __dirname is the current directory
 const currentDir = __dirname; // e.g., '/Users/username/project'
 const parentDir = path.join(currentDir, '..');
+console.log(currentDir);
+console.log(parentDir);
 
 const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
