@@ -7,6 +7,7 @@ const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio] = useState(new Audio(audioFile)); // Replace with your audio file path
   const [startTime, setStartTime] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleAudio = () => {
     if (isPlaying) {
@@ -27,12 +28,27 @@ const AudioPlayer = () => {
   const saveElapsedTime = async (elapsedTime) => {
     try {
       await addDoc(collection(db, 'audioRecords'), {
-        elapsedTime: elapsedTime / 1000, // Store elapsed time in milliseconds
+        elapsedTime: elapsedTime / 1000, // Store elapsed time in seconds
         timestamp: new Date(),
       });
       console.log('Elapsed time saved:', elapsedTime);
     } catch (error) {
       console.error('Error saving elapsed time:', error);
+    }
+  };
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    } else {
+      document.documentElement.requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true);
+        })
+        .catch(err => {
+          console.error("Error attempting to enable fullscreen mode:", err);
+        });
     }
   };
 
@@ -46,9 +62,14 @@ const AudioPlayer = () => {
 
   return (
     <div style={styles.container}>
-      <button style={styles.button} onClick={toggleAudio}>
-        {isPlaying ? 'Pause' : 'Play'}
+      <button style={styles.fullscreenButton} onClick={toggleFullscreen}>
+        {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
       </button>
+      {isFullscreen && (
+        <button style={styles.button} onClick={toggleAudio}>
+          {isPlaying ? 'Pause' : 'Play'}
+        </button>
+      )}
     </div>
   );
 };
@@ -56,6 +77,7 @@ const AudioPlayer = () => {
 const styles = {
   container: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
@@ -63,6 +85,12 @@ const styles = {
   button: {
     padding: '15px 30px',
     fontSize: '20px',
+    cursor: 'pointer',
+    marginTop: '20px',
+  },
+  fullscreenButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
     cursor: 'pointer',
   },
 };
