@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig'; // Import your Firestore setup
 import { collection, addDoc } from 'firebase/firestore';
+import audioFile from './audio_clips/bad_sneakers.mp3';
 
 const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audio] = useState(new Audio('bad_sneakers.mp3')); // Replace with your audio file path
+  const [audio] = useState(new Audio(audioFile)); // Replace with your audio file path
   const [startTime, setStartTime] = useState(null);
 
   const toggleAudio = () => {
