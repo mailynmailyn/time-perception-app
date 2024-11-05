@@ -17,6 +17,7 @@ function AudioPlayer() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [startTime, setStartTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const audioRef = useRef(null);
   
 
