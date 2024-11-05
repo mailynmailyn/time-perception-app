@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { db } from '../firebaseConfig'; // Import your firebase config
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import badSneakers from '../audio_clips/bad_sneakers.mp3'; 
 import comedownstudio from '../audio_clips/come_down_studio.wav';
 import pinkponystudio from '../audio_clips/pink_pony.wav';
 import zombiegirltd from '../audio_clips/zombie_girl_td.wav';
@@ -18,7 +17,6 @@ function AudioPlayer() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [startTime, setStartTime] = useState(null);
-  const [elapsedTime, setElapsedTime] = useState(0);
   const audioRef = useRef(null);
   
 
