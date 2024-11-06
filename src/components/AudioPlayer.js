@@ -17,7 +17,7 @@ function AudioPlayer() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [startTime, setStartTime] = useState(null);
-  const [elapsedTime, setElapsedTime] = useState(0);
+  // const [elapsedTime, setElapsedTime] = useState(0);
   const audioRef = useRef(null);
   
 
@@ -37,7 +37,7 @@ function AudioPlayer() {
       // Stop timer
       const endTime = Date.now();
       const timeElapsed = (endTime - startTime) / 1000; // in seconds
-      setElapsedTime(timeElapsed);
+      // setElapsedTime(timeElapsed);
       setIsPlaying(false);
 
        // Pause the audio
@@ -71,7 +71,7 @@ function AudioPlayer() {
 
   const handleNextAudio = () => {
     setCurrentAudioIndex((prevIndex) => (prevIndex + 1) % audios.length);
-    setElapsedTime(0); // Reset elapsed time
+    // setElapsedTime(0); // Reset elapsed time
     setIsPlaying(false); // Reset playing status
   };
 
