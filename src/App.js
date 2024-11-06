@@ -17,7 +17,6 @@ function App() {
       <Routes>
         <Route path="" element={<AudioPlayer />} />
         <Route path="/instructions" element={<Instructions />} />
-        // <Route path="/audioplayer" element={<AudioPlayer />} />
         <Route path="/semanticdata" element={<SemanticData />} />
         <Route path="/restils" element={<Results />} />
       </Routes>
