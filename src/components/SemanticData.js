@@ -44,7 +44,7 @@ function SemanticData() {
       setAnswers({ answer1: '', answer2: '', answer3: '' }); // Clear the form after submission
       
 
-      if(currentAudioIndex == 0){
+      if(currentAudioIndex === 0){
         navigate('/results');
       }
       else{
