@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AudioPlayer from './components/AudioPlayer'; // Adjust the path if necessary
 import Instructions from './components/Instructions';
-// import UserInfo from './components/UserInfo';
+import UserInfo from './components/UserInfo';
 import SemanticData from './components/SemanticData';
 import Familiarity from './components/Familiarity';
 import Results from './components/Results';
