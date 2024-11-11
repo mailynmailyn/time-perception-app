@@ -18,7 +18,7 @@ function SemanticData() {
   const currentAudio = audios[currentAudioIndex];
 
   const userId = username;
-  const songId = currentAudio.name;
+  const songId = currentAudio.id;
 
 
   const handleChange = (e) => {

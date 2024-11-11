@@ -48,20 +48,20 @@ function AudioPlayer() {
       audioRef.current.currentTime = 0; // Optional: reset time to start
 
       // Save to Firebase
-      saveTimeToFirebase(username, currentAudio.name, currentAudio.version, timeElapsed);
+      saveTimeToFirebase(username, currentAudio.id, currentAudio.name, currentAudio.version, timeElapsed);
 
       // Navigate to a different page
       navigate('/familiarity');
     }
   };
 
-  function saveTimeToFirebase(userId, songId, versionId, time) {
+  function saveTimeToFirebase(userId, songId, songName, versionId, time) {
     // Reference to the 'Versions' subcollection within the specified user's song and version path
     const versionRef = doc(db, 'Users', userId, 'SongData', songId);
 
     // Save time data to Firebase
     setDoc(versionRef, {
-      song: songId,
+      song: songName,
       version: versionId,
       time: time + 's',
     })
