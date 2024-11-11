@@ -1,25 +1,13 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { db } from '../firebaseConfig'; // Import your firebase config
 import { setDoc, doc } from 'firebase/firestore';
-// import comedownstudio from '../audio_clips/come_down_studio.wav';
-// import pinkponystudio from '../audio_clips/pink_pony.wav';
-// import zombiegirltd from '../audio_clips/zombie_girl_td.wav';
 import '../styling/audioplayer.css';
 import { useNavigate } from 'react-router-dom';
 import { AudioContext } from './AudioContext';
 
-
-// const audios = [
-//   { id: 'Audio A', name: 'Pink Pony Club', version: 'Studio', url: pinkponystudio },
-//   { id: 'Audio B', name: 'Come Down', version: 'Studio', url: comedownstudio },
-//   { id: 'Audio C', name: 'Zombie Girl', version: 'Tiny Desk', url: zombiegirltd },
-// ];
-
-
 function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [startTime, setStartTime] = useState(null);
-  // const [elapsedTime, setElapsedTime] = useState(0);
   const audioRef = useRef(null);
   const navigate = useNavigate();
   const { audios, currentAudioIndex, username } = useContext(AudioContext);
@@ -27,15 +15,19 @@ function AudioPlayer() {
   // Safely access the current audio
   const currentAudio = audios[currentAudioIndex];
 
+  // Preload audio when the component is mounted or when the current audio changes
+  useEffect(() => {
+    // Create a new Audio object for preloading
+    audioRef.current = new Audio(currentAudio.url);
+    audioRef.current.preload = 'auto'; // Preload the audio
+  }, [currentAudio.url]); // Only re-run when the current audio changes
+
   const handleAudioStartStop = () => {
-   
     if (!isPlaying) {
       // Start timer
       setStartTime(Date.now());
       setIsPlaying(true);
       // Start audio playback
-      // Create a new Audio object and store it in the ref
-      audioRef.current = new Audio(currentAudio.url);
       audioRef.current.play().catch(error => {
         console.error('Playback failed:', error);
       });
@@ -43,59 +35,47 @@ function AudioPlayer() {
       // Stop timer
       const endTime = Date.now();
       const timeElapsed = (endTime - startTime) / 1000; // in seconds
-      // setElapsedTime(timeElapsed);
       setIsPlaying(false);
 
-       // Pause the audio
-      if (audioRef.current) {
-        audioRef.current.pause(); // Pause the audio
-        audioRef.current.currentTime = 0; // Optional: reset time to start
-      }
+      // Pause the audio
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0; // Optional: reset time to start
 
       // Save to Firebase
       saveTimeToFirebase(username, currentAudio.name, currentAudio.version, timeElapsed);
 
-      // handleNextAudio();
       // Navigate to a different page
       navigate('/familiarity');
-
     }
   };
 
   function saveTimeToFirebase(userId, songId, versionId, time) {
     // Reference to the 'Versions' subcollection within the specified user's song and version path
     const versionRef = doc(db, 'Users', userId, 'SongData', songId);
-  
-    // Add a new document with the time data and a timestamp in the 'TimeEntries' collection for this version
+
+    // Save time data to Firebase
     setDoc(versionRef, {
       song: songId,
       version: versionId,
       time: time + 's',
     })
-    .then(() => {
-      console.log("Data saved successfully!");
-    })
-    .catch((error) => {
-      console.error("Error saving data:", error);
-    });
+      .then(() => {
+        console.log("Data saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error);
+      });
   }
-  
-
-  // const handleNextAudio = () => {
-  //   setCurrentAudioIndex((prevIndex) => (prevIndex + 1) % audios.length);
-  //   // setElapsedTime(0); // Reset elapsed time
-  //   setIsPlaying(false); // Reset playing status
-  // };
 
   return (
-    <div className = "audio-container">
+    <div className="audio-container">
       <h3>{currentAudio.id}</h3>
-      <button onClick={handleAudioStartStop}
+      <button
+        onClick={handleAudioStartStop}
         className={isPlaying ? 'active' : ''} // Apply 'active' class based on state
-        >
+      >
         {isPlaying ? 'Stop' : 'Start'}
       </button>
-      {/* <button className="next-audio" onClick={handleNextAudio}>Next Audio</button> */}
     </div>
   );
 }
