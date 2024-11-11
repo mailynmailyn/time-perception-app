@@ -38,7 +38,7 @@ function Familiarity() {
       return;
     }
 
-    saveFamiliarityToFirebase(username, currentAudio.name, currentAudio.version, familiarity);
+    saveFamiliarityToFirebase(username, currentAudio.id, familiarity);
 
     navigate('/semanticdata');
   };
