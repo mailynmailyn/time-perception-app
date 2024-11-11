@@ -7,7 +7,7 @@ import { AudioContext } from './AudioContext';
 
 function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [startTime, setStartTime] = useState(null);
+  const startTimeRef = useRef(null); 
   const [isLoaded, setIsLoaded] = useState(false); // State to track if audio is preloaded
   const audioRef = useRef(null);
   const navigate = useNavigate();
@@ -26,32 +26,51 @@ function AudioPlayer() {
     audioRef.current.oncanplaythrough = () => {
       setIsLoaded(true); // Audio is ready to play
     };
+
+     // Stop timer and navigate when audio ends naturally
+     audioRef.current.onended = handleStop;
+
+     // Cleanup audio object when the component unmounts or audio changes
+     return () => {
+       audioRef.current.pause();
+       audioRef.current = null;
+       setIsLoaded(false);
+     };
+  // eslint-disable-next-line
   }, [currentAudio.url]); // Only re-run when the current audio changes
+
+  
+  // Function to handle both manual stop and audio ended naturally
+  const handleStop = () => {
+    // Stop timer
+    const endTime = Date.now();
+    console.log(startTimeRef.current);
+    console.log(endTime);
+    const timeElapsed = (endTime - startTimeRef.current) / 1000; // in seconds
+    setIsPlaying(false);
+
+    // Pause the audio
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0; // Reset time to start
+
+    // Save to Firebase
+    saveTimeToFirebase(username, currentAudio.id, currentAudio.name, currentAudio.version, timeElapsed);
+
+    // Navigate to a different page
+    navigate('/familiarity');
+  };
 
   const handleAudioStartStop = () => {
     if (!isPlaying) {
       // Start timer
-      setStartTime(Date.now());
+      startTimeRef.current = Date.now();
       setIsPlaying(true);
       // Start audio playback
       audioRef.current.play().catch(error => {
         console.error('Playback failed:', error);
       });
     } else {
-      // Stop timer
-      const endTime = Date.now();
-      const timeElapsed = (endTime - startTime) / 1000; // in seconds
-      setIsPlaying(false);
-
-      // Pause the audio
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0; // Optional: reset time to start
-
-      // Save to Firebase
-      saveTimeToFirebase(username, currentAudio.id, currentAudio.name, currentAudio.version, timeElapsed);
-
-      // Navigate to a different page
-      navigate('/familiarity');
+      handleStop();
     }
   };
 
@@ -64,6 +83,8 @@ function AudioPlayer() {
       song: songName,
       version: versionId,
       time: time + 's',
+      songId: songId,
+      user: userId
     })
       .then(() => {
         console.log("Data saved successfully!");

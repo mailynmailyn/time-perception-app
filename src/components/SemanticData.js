@@ -1,7 +1,7 @@
-import React, { useState, useContext,  } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../firebaseConfig'; // Ensure Firebase is configured and exported from here
-import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 import { AudioContext } from './AudioContext';
 
 function SemanticData() {
@@ -12,48 +12,64 @@ function SemanticData() {
     answer3: ''
   });
 
+  const questions = [
+    'What features of the music stood out the most to you?',
+    'What features of the sound quality stood out the most to you?',
+    'How did it make you feel?'
+  ];
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { audios, currentAudioIndex, handleNextAudio, username } = useContext(AudioContext);
 
   // Safely access the current audio
   const currentAudio = audios[currentAudioIndex];
-
   const userId = username;
   const songId = currentAudio.id;
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAnswers(prevState => ({
+    setAnswers((prevState) => ({
       ...prevState,
       [name]: value
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!answers.answer1 || !answers.answer2 || !answers.answer3) {
+      alert("Please ensure all fields are filled.");
+      return;
+    }
     
     try {
-      updateDoc(doc(db, 'Users', userId, 'SongData', songId), {
+      // Save the answers for the current question in the 'SemanticQuestions' collection
+      await setDoc(doc(db, 'Users', userId, 'SongData', songId, 'SemanticQuestions', currentQuestionIndex.toString()), {
+        question: questions[currentQuestionIndex],
         answer1: answers.answer1,
         answer2: answers.answer2,
-        answer3: answers.answer3
+        answer3: answers.answer3,
+        user: userId,
+        songId: songId
       });
-      alert("Your answers have been saved!");
-      setAnswers({ answer1: '', answer2: '', answer3: '' }); // Clear the form after submission
 
-      handleNextAudio();
-      
-      if(currentAudioIndex === (audios.length-1)){
-        navigate('/results');
-        console.log(currentAudioIndex);
-      }
-      else{
-        navigate('/audioplayer');
-      }
-      
+      // Clear the answers for the next question
+      setAnswers({ answer1: '', answer2: '', answer3: '' });
 
+      // Move to the next question or audio player/results if all questions answered
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        // Move to the next audio if available or to results if last audio
+        handleNextAudio();
+        if (currentAudioIndex === audios.length - 1) {
+          navigate('/results');
+        } else {
+          navigate('/audioplayer');
+        }
+      }
     } catch (error) {
-      console.error("Error adding document: ", error);
+      console.error("Error saving document: ", error);
       alert("Failed to save answers.");
     }
   };
@@ -61,9 +77,10 @@ function SemanticData() {
   return (
     <div>
       <h1>Semantic Question Form</h1>
+      <h2>{questions[currentQuestionIndex]}</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Question 1: What is your favorite genre of music?
+          Answer 1: 
           <input
             type="text"
             name="answer1"
@@ -73,7 +90,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          Question 2: How does this genre make you feel?
+          Answer 2: 
           <input
             type="text"
             name="answer2"
@@ -83,7 +100,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          Question 3: Do you associate this music with any specific memory or event?
+          Answer 3:  
           <input
             type="text"
             name="answer3"

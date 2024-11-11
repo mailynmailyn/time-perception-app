@@ -1,3 +1,5 @@
+// import whitenoise from '../audio_clips/whitenoise.wav';
+
 export function SelectOrder(originalAudios) {
     const orders = [
         ['A', "B'", 'C', "A'", 'B', "C'"],
@@ -17,6 +19,8 @@ export function SelectOrder(originalAudios) {
     const randomOrder = orders[Math.floor(Math.random() * originalAudios.length)];
 
     const audios = [];
+
+    // audios.push(whitenoise);
 
     // Loop through each id in the selected permutation
     for (let i = 0; i < randomOrder.length; i++) {
