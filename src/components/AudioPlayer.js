@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import { db } from '../firebaseConfig'; // Import your firebase config
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 // import comedownstudio from '../audio_clips/come_down_studio.wav';
 // import pinkponystudio from '../audio_clips/pink_pony.wav';
 // import zombiegirltd from '../audio_clips/zombie_girl_td.wav';
@@ -22,7 +22,7 @@ function AudioPlayer() {
   // const [elapsedTime, setElapsedTime] = useState(0);
   const audioRef = useRef(null);
   const navigate = useNavigate();
-  const { audios, currentAudioIndex } = useContext(AudioContext);
+  const { audios, currentAudioIndex, username } = useContext(AudioContext);
 
   // Safely access the current audio
   const currentAudio = audios[currentAudioIndex];
@@ -53,7 +53,7 @@ function AudioPlayer() {
       }
 
       // Save to Firebase
-      saveTimeToFirebase('mailyn', currentAudio.name, currentAudio.version, timeElapsed);
+      saveTimeToFirebase(username, currentAudio.name, currentAudio.version, timeElapsed);
 
       // handleNextAudio();
       // Navigate to a different page
@@ -64,12 +64,13 @@ function AudioPlayer() {
 
   function saveTimeToFirebase(userId, songId, versionId, time) {
     // Reference to the 'Versions' subcollection within the specified user's song and version path
-    const versionRef = collection(db, 'Users', userId, 'Songs', songId, 'Versions', versionId, 'Data');
+    const versionRef = doc(db, 'Users', userId, 'SongData', songId);
   
     // Add a new document with the time data and a timestamp in the 'TimeEntries' collection for this version
-    addDoc(versionRef, {
-      time,
-      timestamp: serverTimestamp(),
+    setDoc(versionRef, {
+      song: songId,
+      version: versionId,
+      time: time + 's',
     })
     .then(() => {
       console.log("Data saved successfully!");

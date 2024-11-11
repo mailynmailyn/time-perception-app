@@ -12,6 +12,8 @@ const audios = [
   { id: 'Audio C', name: 'Zombie Girl', version: 'Tiny Desk', url: zombiegirltd },
 ];
 
+const username = crypto.randomUUID();
+
 export const AudioProvider = ({ children }) => {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
 
@@ -22,6 +24,7 @@ export const AudioProvider = ({ children }) => {
   return (
     <AudioContext.Provider
       value={{
+        username,
         audios,
         currentAudioIndex,
         handleNextAudio,

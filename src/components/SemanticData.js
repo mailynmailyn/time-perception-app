@@ -1,7 +1,7 @@
 import React, { useState, useContext,  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebaseConfig'; // Ensure Firebase is configured and exported from here
-import { collection, addDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { AudioContext } from './AudioContext';
 
 function SemanticData() {
@@ -12,14 +12,13 @@ function SemanticData() {
     answer3: ''
   });
 
-  const { audios, currentAudioIndex } = useContext(AudioContext);
+  const { audios, currentAudioIndex, handleNextAudio, username } = useContext(AudioContext);
 
   // Safely access the current audio
   const currentAudio = audios[currentAudioIndex];
 
-  const userId = 'mailyn';
+  const userId = username;
   const songId = currentAudio.name;
-  const versionId = currentAudio.version;
 
 
   const handleChange = (e) => {
@@ -30,22 +29,23 @@ function SemanticData() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     try {
-      await addDoc(collection(db, 'Users', userId, 'Songs', songId, 'Versions', versionId, 'Data'), {
+      updateDoc(doc(db, 'Users', userId, 'SongData', songId), {
         answer1: answers.answer1,
         answer2: answers.answer2,
-        answer3: answers.answer3,
-        timestamp: new Date()
+        answer3: answers.answer3
       });
       alert("Your answers have been saved!");
       setAnswers({ answer1: '', answer2: '', answer3: '' }); // Clear the form after submission
-      
 
-      if(currentAudioIndex === 0){
+      handleNextAudio();
+      
+      if(currentAudioIndex === (audios.length-1)){
         navigate('/results');
+        console.log(currentAudioIndex);
       }
       else{
         navigate('/audioplayer');

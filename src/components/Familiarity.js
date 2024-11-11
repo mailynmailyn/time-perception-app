@@ -1,13 +1,13 @@
 import React, { useState, useContext,  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebaseConfig'; // Ensure Firebase is configured and exported from here
-import { collection, addDoc } from 'firebase/firestore';
+import { updateDoc, doc } from 'firebase/firestore';
 import { AudioContext } from './AudioContext';
 
 function Familiarity() {
   const [familiarity, setFamiliarity] = useState(null);
   const navigate = useNavigate();
-  const { audios, currentAudioIndex, handleNextAudio } = useContext(AudioContext);
+  const { audios, currentAudioIndex, username } = useContext(AudioContext);
 
   // Safely access the current audio
   const currentAudio = audios[currentAudioIndex];
@@ -16,13 +16,13 @@ function Familiarity() {
     setFamiliarity(Number(e.target.value));
   };
 
-  function saveFamiliarityToFirebase(userId, songId, versionId, familiarity) {
+  function saveFamiliarityToFirebase(userId, songId, familiarity) {
     // Reference to the 'Versions' subcollection within the specified user's song and version path
-    const versionRef = collection(db, 'Users', userId, 'Songs', songId, 'Versions', versionId, 'Data');
+    const versionRef = doc(db, 'Users', userId, 'SongData', songId);
   
     // Add a new document with the time data and a timestamp in the 'TimeEntries' collection for this version
-    addDoc(versionRef, {
-      familiarity
+    updateDoc(versionRef, {
+      familiarity: familiarity
     })
     .then(() => {
       console.log("Data saved successfully!");
@@ -32,15 +32,13 @@ function Familiarity() {
     });
   }
 
-  const saveFamiliarity = async () => {
+  const saveFamiliarity = () => {
     if (familiarity === null) {
       alert("Please select a familiarity rating.");
       return;
     }
 
-    saveFamiliarityToFirebase('mailyn', currentAudio.name, currentAudio.version, familiarity);
-
-    handleNextAudio();
+    saveFamiliarityToFirebase(username, currentAudio.name, currentAudio.version, familiarity);
 
     navigate('/semanticdata');
   };
