@@ -44,8 +44,6 @@ function AudioPlayer() {
   const handleStop = () => {
     // Stop timer
     const endTime = Date.now();
-    console.log(startTimeRef.current);
-    console.log(endTime);
     const timeElapsed = (endTime - startTimeRef.current) / 1000; // in seconds
     setIsPlaying(false);
 
