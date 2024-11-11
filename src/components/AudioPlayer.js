@@ -8,6 +8,7 @@ import { AudioContext } from './AudioContext';
 function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [startTime, setStartTime] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false); // State to track if audio is preloaded
   const audioRef = useRef(null);
   const navigate = useNavigate();
   const { audios, currentAudioIndex, username } = useContext(AudioContext);
@@ -20,6 +21,11 @@ function AudioPlayer() {
     // Create a new Audio object for preloading
     audioRef.current = new Audio(currentAudio.url);
     audioRef.current.preload = 'auto'; // Preload the audio
+
+    // When the audio is completely preloaded, set isLoaded to true
+    audioRef.current.oncanplaythrough = () => {
+      setIsLoaded(true); // Audio is ready to play
+    };
   }, [currentAudio.url]); // Only re-run when the current audio changes
 
   const handleAudioStartStop = () => {
@@ -70,12 +76,16 @@ function AudioPlayer() {
   return (
     <div className="audio-container">
       <h3>{currentAudio.id}</h3>
-      <button
-        onClick={handleAudioStartStop}
-        className={isPlaying ? 'active' : ''} // Apply 'active' class based on state
-      >
-        {isPlaying ? 'Stop' : 'Start'}
-      </button>
+      {isLoaded ? (
+        <button
+          onClick={handleAudioStartStop}
+          className={isPlaying ? 'active' : ''} // Apply 'active' class based on state
+        >
+          {isPlaying ? 'Stop' : 'Start'}
+        </button>
+      ) : (
+        <p>Loading audio...</p> // Show loading message while the audio is preloading
+      )}
     </div>
   );
 }
