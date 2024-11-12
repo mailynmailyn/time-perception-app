@@ -15,7 +15,7 @@ html, body {
   }
   
   input, select {
-    font-size: 16px;        /* Match input font size with label */
+    font-size: 14px;        /* Match input font size with label */
     width: 20%;            /* Make input field take the full width */
     padding: 8px;           /* Add some padding inside the input for better visibility */
     margin-bottom: 15px;    /* Space below the input */
@@ -33,6 +33,7 @@ html, body {
     border-radius: 0px;        /* Rounded corners */
     cursor: pointer;           /* Change cursor to pointer on hover */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions for background and scale */
+    margin: 10px;
   }
   
   /* Button hover effect */

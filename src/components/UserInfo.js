@@ -52,8 +52,11 @@ function UserInfo() {
 
   return (
     <div>
-      <h2>Welcome !</h2>
-      <h4>Please provide the following information.</h4>
+      <h3>Welcome !</h3>
+      <h5>Please provide the following information.</h5>
+      <p>Disclaimer: the database is currently public, so if you would not like to disclose your 
+        name, please write 'Anonymous' in the Name field.</p>
+        <br></br>
       <form onSubmit={handleSubmit}>
         <label>
           Name:

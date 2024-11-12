@@ -13,9 +13,9 @@ function SemanticData() {
   });
 
   const questions = [
-    'What features of the music stood out the most to you?',
-    'What features of the sound quality stood out the most to you?',
-    'How did it make you feel?'
+    {question: 'What features of the music stood out the most to you?', example: 'ie. aspects of instruments, speed, voice...'},
+    {question: 'What features of the sound quality stood out the most to you?', example: 'ie. sense of clarity, balance, ideas of space...'},
+    {question: 'How did it make you feel?', example: 'ie. evoked emotions or actions...'}
   ];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -87,7 +87,9 @@ function SemanticData() {
 
   return (
     <div>
-      <h2>{questions[currentQuestionIndex]}</h2>
+      <h3>{questions[currentQuestionIndex].question}</h3>
+      <p>{questions[currentQuestionIndex].example}</p>
+      <br></br>
       <form onSubmit={handleSubmit}>
         <label>
           1:
