@@ -41,7 +41,7 @@ function SemanticData() {
       alert("Please ensure all fields are filled.");
       return;
     }
-    
+
     try {
       // Save the answers for the current question in the 'SemanticQuestions' collection
       await setDoc(doc(db, 'Users', userId, 'SongData', songId, 'SemanticQuestions', currentQuestionIndex.toString()), {
@@ -65,6 +65,17 @@ function SemanticData() {
         if (currentAudioIndex === audios.length - 1) {
           navigate('/results');
         } else {
+
+          // Trigger fullscreen mode
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+          } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari & Opera
+            document.documentElement.webkitRequestFullscreen();
+          } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            document.documentElement.msRequestFullscreen();
+          }
           navigate('/audioplayer');
         }
       }
@@ -80,7 +91,7 @@ function SemanticData() {
       <h2>{questions[currentQuestionIndex]}</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Answer 1: 
+          Answer 1:
           <input
             type="text"
             name="answer1"
@@ -90,7 +101,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          Answer 2: 
+          Answer 2:
           <input
             type="text"
             name="answer2"
@@ -100,7 +111,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          Answer 3:  
+          Answer 3:
           <input
             type="text"
             name="answer3"
