@@ -94,7 +94,7 @@ function AudioPlayer() {
 
   return (
     <div className="audio-container">
-      <h3>{currentAudio.id}</h3>
+      <h3>Audio {currentAudioIndex + 1}</h3>
       {isLoaded ? (
         <button
           onClick={handleAudioStartStop}

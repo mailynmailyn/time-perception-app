@@ -16,11 +16,25 @@ function Results() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const collectionRef = collection(db, 'Users', username, 'SongData'); // Replace with your collection name
-      const snapshot = await getDocs(collectionRef);
+      const userCollectionRef = collection(db, 'Users', username, 'SongData');
+      const snapshot = await getDocs(userCollectionRef);
       
-      // Fetch all documents and map them to an array of objects
-      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const items = await Promise.all(
+        snapshot.docs.map(async (doc) => {
+          const songData = { id: doc.id, ...doc.data() };
+          const semanticDataRef = collection(doc.ref, 'SemanticData');
+          const semanticSnapshot = await getDocs(semanticDataRef);
+
+          // Map semantic data documents to an array
+          const semanticData = semanticSnapshot.docs.map(semanticDoc => ({
+            semanticId: semanticDoc.id,
+            ...semanticDoc.data(),
+          }));
+
+          return { ...songData, semanticData };
+        })
+      );
+
       setData(items);
       setLoading(false);
     };
@@ -32,22 +46,41 @@ function Results() {
 
   return (
     <div>
-      <h1>Your Results</h1>
-      <h2>How did you do ?</h2>
+      <h2>Your Results</h2>
+      <h4>How did you do?</h4>
       <table>
         <thead>
           <tr>
             {fieldsToDisplay.map((field, index) => (
-              <th key={index}>{field}</th>  // Table header (specified fields)
+              <th key={index}>{field}</th>
             ))}
+            <th>Semantic Data</th>
           </tr>
         </thead>
         <tbody>
           {data.map((doc) => (
             <tr key={doc.id}>
               {fieldsToDisplay.map((field, i) => (
-                <td key={i}>{doc[field] || "N/A"}</td>  // Table row (fields)
+                <td key={i}>{doc[field] || "N/A"}</td>
               ))}
+              <td>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Question</th>
+                      <th>Response</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {doc.semanticData.map((semantic) => (
+                      <tr key={semantic.semanticId}>
+                        <td>{semantic.question}</td>
+                        <td>{semantic.response}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </td>
             </tr>
           ))}
         </tbody>

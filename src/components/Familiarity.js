@@ -45,11 +45,10 @@ function Familiarity() {
 
   return (
     <div>
-      <h1>Familiarity</h1>
-      <h2>Rate Your Familiarity with the Song</h2>
+      <h3>Rate your familiarity with the song</h3>
       <form>
         {[1, 2, 3, 4, 5].map((value) => (
-          <label key={value} style={{ display: 'block', margin: '8px 0' }}>
+          <label key={value} style={{ display: 'flex', margin: '15px' }}>
             <input
               type="radio"
               name="familiarity"
@@ -57,8 +56,12 @@ function Familiarity() {
               checked={familiarity === value}
               onChange={handleFamiliarityChange}
             />
-            {value} - {["Not Familiar", "Slightly Familiar", "Somewhat Familiar", "Familiar", "Very Familiar"][value - 1]}
-          </label>
+            <span>{value} - {["Not Familiar", "Slightly Familiar", "Familiar", "Very Familiar", "Extremely Familiar"][value - 1]}</span>
+        {/* Subtitles below the main label */}
+        <span style={{ color: '#777' }}>
+          {[" (No knowledge of the song)", " (Heard it once or twice)", " (Familiar with the melody)", " (Know the song well)", " (Very familiar, almost every detail)"][value - 1]}
+        </span>
+        </label>
         ))}
         <button type="button" onClick={saveFamiliarity} style={{ marginTop: '20px' }}>
           Proceed

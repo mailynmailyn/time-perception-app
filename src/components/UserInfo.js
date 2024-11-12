@@ -41,7 +41,7 @@ function UserInfo() {
       setAnswers({ user_name: '', user_age: '', user_gender: '' }); // Clear the form after submission
 
 
-      navigate('/audioplayer');
+      navigate('/instructions');
 
 
     } catch (error) {
@@ -52,8 +52,8 @@ function UserInfo() {
 
   return (
     <div>
-      <h1>Welcome !</h1>
-      <h2>Please provide the following information.</h2>
+      <h2>Welcome !</h2>
+      <h4>Please provide the following information.</h4>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
