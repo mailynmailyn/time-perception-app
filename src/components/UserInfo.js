@@ -41,7 +41,7 @@ function UserInfo() {
       setAnswers({ user_name: '', user_age: '', user_gender: '' }); // Clear the form after submission
 
 
-      navigate('/audioplayer');
+      navigate('/instructions');
 
 
     } catch (error) {
