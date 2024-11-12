@@ -1,0 +1,11 @@
+p {
+    /* height: 100%; */
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:x-large;
+    text-align: center;
+    background-color: #ECE2D0;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }

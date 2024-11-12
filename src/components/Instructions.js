@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import "../styling/intro.css"
 
 function Instructions() {
   const navigate = useNavigate();
@@ -21,8 +22,8 @@ function Instructions() {
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h1>Instructions</h1>
+    <div>
+      <h2>Instructions</h2>
       <p>Please complete this experiment on a laptop or computer, using headphones, and in a quiet, distraction 
         free space. Set your volume to a moderate level, one that you won’t have to adjust. </p>
       <p>You will be played a series of recordings. Click the button in the middle to begin each recording, and then click the same button again 

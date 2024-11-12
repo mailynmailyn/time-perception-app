@@ -6,6 +6,38 @@ html, body {
     justify-content: center;
     font-size: 40px;
     text-align: center;
+    background-color: #ECE2D0;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  form {
+    font-family: Arial, sans-serif;
+  }
+  
+  input, select {
+    font-size: 16px;        /* Match input font size with label */
+    width: 20%;            /* Make input field take the full width */
+    padding: 8px;           /* Add some padding inside the input for better visibility */
+    margin-bottom: 15px;    /* Space below the input */
+    box-sizing: border-box; /* Include padding in the width calculation */
+  }
+  
+
+  button {
+    padding: 20px 30px;        /* Add padding around the button text */
+    font-size: 16px;           /* Set font size */
+    font-weight: bold;         /* Make the text bold */
+    color: #fff;               /* White text */
+    background-color: black; /* Blue background */
+    border: none;              /* Remove default border */
+    border-radius: 0px;        /* Rounded corners */
+    cursor: pointer;           /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions for background and scale */
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    background-color: grey; /* Darker blue on hover */
   }
   
   .audio-container button {
@@ -36,4 +68,29 @@ html, body {
   .audio-container button.active:hover {
     background-color: #a01212;     /* Slightly darker green on hover */
   }
+
+  input[type="radio"] {
+    appearance: none;  /* Remove default appearance */
+    width: 20px;       /* Set width */
+    height: 20px;      /* Set height */
+    border-radius: 50%; /* Make it circular */
+    border: 2px solid black; /* Blue border */
+    outline: none; /* Remove outline */
+    cursor: pointer; /* Pointer cursor */
+    transition: all 0.3s ease; /* Smooth transition for hover and checked state */
+    margin-right: 10px;
+  }
+
+  /* Add a checked state */
+input[type="radio"]:checked {
+  background-color: black; /* Blue background when checked */
+  border-color: black;     /* Darker blue border */
+}
+
+/* Style the label */
+input[type="radio"] + label {
+  font-size: 16px; /* Set label font size */
+  margin-left: 10px; /* Space between radio button and label */
+  cursor: pointer;  /* Pointer cursor when hovering over the label */
+}
   

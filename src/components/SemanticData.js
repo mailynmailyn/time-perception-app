@@ -87,11 +87,10 @@ function SemanticData() {
 
   return (
     <div>
-      <h1>Semantic Question Form</h1>
       <h2>{questions[currentQuestionIndex]}</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Answer 1:
+          1:
           <input
             type="text"
             name="answer1"
@@ -101,7 +100,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          Answer 2:
+          2:
           <input
             type="text"
             name="answer2"
@@ -111,7 +110,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          Answer 3:
+          3:
           <input
             type="text"
             name="answer3"

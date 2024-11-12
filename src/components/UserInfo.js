@@ -52,8 +52,8 @@ function UserInfo() {
 
   return (
     <div>
-      <h1>Welcome !</h1>
-      <h2>Please provide the following information.</h2>
+      <h2>Welcome !</h2>
+      <h4>Please provide the following information.</h4>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
