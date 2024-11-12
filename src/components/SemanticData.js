@@ -45,7 +45,7 @@ function SemanticData() {
     try {
       // Save the answers for the current question in the 'SemanticQuestions' collection
       await setDoc(doc(db, 'Users', userId, 'SongData', songId, 'SemanticQuestions', currentQuestionIndex.toString()), {
-        question: questions[currentQuestionIndex],
+        question: questions[currentQuestionIndex].question,
         answer1: answers.answer1,
         answer2: answers.answer2,
         answer3: answers.answer3,
