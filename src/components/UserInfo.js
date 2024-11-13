@@ -65,6 +65,7 @@ function UserInfo() {
             name="user_name"
             value={answers.user_name}
             onChange={handleChange}
+            style= {{width: '200px'}}
           />
         </label><br /><br />
 
@@ -77,6 +78,7 @@ function UserInfo() {
             onChange={handleChange}
             min="1"
             max="100"
+            style= {{width: '100px'}}
           />
         </label><br /><br />
 
@@ -86,6 +88,7 @@ function UserInfo() {
             name="user_gender"
             value={answers.user_gender}
             onChange={handleChange}
+            style= {{width: '150px'}}
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>

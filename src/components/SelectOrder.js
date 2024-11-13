@@ -1,4 +1,4 @@
-// import whitenoise from '../audio_clips/whitenoise.wav';
+import whitenoise from '../audio_clips/whitenoise.wav';
 
 export function SelectOrder(originalAudios) {
     const orders = [
@@ -20,7 +20,7 @@ export function SelectOrder(originalAudios) {
 
     const audios = [];
 
-    // audios.push(whitenoise);
+    audios.push({id: "whitenoise", name: 'White Noise', version: 'N/A', url: whitenoise});
 
     // Loop through each id in the selected permutation
     for (let i = 0; i < randomOrder.length; i++) {
@@ -35,6 +35,6 @@ export function SelectOrder(originalAudios) {
         }
     }
 
-
+    console.log(audios);
     return audios;
 }

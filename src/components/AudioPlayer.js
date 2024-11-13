@@ -54,8 +54,14 @@ function AudioPlayer() {
     // Save to Firebase
     saveTimeToFirebase(username, currentAudio.id, currentAudio.name, currentAudio.version, timeElapsed);
 
-    // Navigate to a different page
-    navigate('/familiarity');
+    if (currentAudio.id === 'whitenoise'){
+      navigate('/semanticdata');  
+    }
+    else{
+      // Navigate to a different page
+      navigate('/familiarity');
+    }
+    
   };
 
   const handleAudioStartStop = () => {

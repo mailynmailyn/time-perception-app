@@ -9,7 +9,6 @@ function SemanticData() {
   const [answers, setAnswers] = useState({
     answer1: '',
     answer2: '',
-    answer3: ''
   });
 
   const questions = [
@@ -37,7 +36,7 @@ function SemanticData() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!answers.answer1 || !answers.answer2 || !answers.answer3) {
+    if (!answers.answer1 || !answers.answer2) {
       alert("Please ensure all fields are filled.");
       return;
     }
@@ -48,13 +47,12 @@ function SemanticData() {
         question: questions[currentQuestionIndex].question,
         answer1: answers.answer1,
         answer2: answers.answer2,
-        answer3: answers.answer3,
         user: userId,
         songId: songId
       });
 
       // Clear the answers for the next question
-      setAnswers({ answer1: '', answer2: '', answer3: '' });
+      setAnswers({ answer1: '', answer2: ''});
 
       // Move to the next question or audio player/results if all questions answered
       if (currentQuestionIndex < questions.length - 1) {
@@ -92,8 +90,7 @@ function SemanticData() {
       <br></br>
       <form onSubmit={handleSubmit}>
         <label>
-          1:
-          <input
+          <textarea
             type="text"
             name="answer1"
             value={answers.answer1}
@@ -102,21 +99,10 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
-          2:
-          <input
+          <textarea
             type="text"
             name="answer2"
             value={answers.answer2}
-            onChange={handleChange}
-          />
-        </label><br /><br />
-
-        <label>
-          3:
-          <input
-            type="text"
-            name="answer3"
-            value={answers.answer3}
             onChange={handleChange}
           />
         </label><br /><br />
