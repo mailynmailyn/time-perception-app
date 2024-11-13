@@ -31,7 +31,7 @@ function Instructions() {
         when you believe 60 seconds has passed. Please do not attempt to count the seconds or look at any sort of time-keeping device; 
         rely on your intuition. </p>
       <p>After each recording, you will be asked a series of questions regarding what you have just heard. </p>
-      <p>Please answer in short phrases. At the end, you will be able to see how you performed!  </p>
+      <p>Please provide 2 separate answers in both boxes, consisting of short phrases. At the end, you will be able to see how you performed!  </p>
       <button onClick={handleProceed} style={{ padding: '10px 20px', fontSize: '16px' }}>
         Proceed
       </button>
