@@ -22,6 +22,16 @@ html, body {
     box-sizing: border-box; /* Include padding in the width calculation */
   }
   
+  textarea {
+    width: 100%;           /* Full width of the container */
+    max-width: 600px;      /* Optional maximum width */
+    height: 100px;         /* Fixed height */
+    padding: 10px;         /* Padding inside the box */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 5px;    /* Rounded corners */
+    font-size: 16px;       /* Font size */
+    resize: none;      /* Allow vertical resizing only */
+}
 
   button {
     padding: 20px 30px;        /* Add padding around the button text */
