@@ -90,6 +90,7 @@ function SemanticData() {
       <br></br>
       <form onSubmit={handleSubmit}>
         <label>
+          1-
           <textarea
             type="text"
             name="answer1"
@@ -99,6 +100,7 @@ function SemanticData() {
         </label><br /><br />
 
         <label>
+          2-
           <textarea
             type="text"
             name="answer2"
